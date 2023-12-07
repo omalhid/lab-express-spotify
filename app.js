@@ -20,7 +20,7 @@ const spotifyApi = new SpotifyWebApi({
     clientSecret: process.env.CLIENT_SECRET
     
 });
-console.log(process.env.CLIENT_ID);
+
 // Retrieve an access token
 spotifyApi
   .clientCredentialsGrant()
@@ -30,44 +30,43 @@ spotifyApi
 // Our routes go here:
 
 //route for home page
-app.get('/' , (req,res) => {
-    res.render('index')
+app.get("/" , (req,res) => {
+    res.render("home")
 })
 
-
+//route for searching results
 app.get('/artist-search', (req, res) => {
-  const { artistName } =req.query;
+
     spotifyApi
-    .searchArtists(artistName)
+    .searchArtists(req.query.artistName)
     .then(data => {
       console.log('Searched artist', data.body.artists.items[0]);
       // ----> 'HERE'S WHAT WE WANT TO DO AFTER RECEIVING THE DATA FROM THE API'
-      const artists = data.body.artists.items 
-      res.render('artist-search', { artists })
+      res.render('artist-search', {artists: data.body.artists.items })
     })
     .catch(err => console.log("The error while searching artists occurred: ", err));
 })
 
-app.get('/albums/:artistId', (req, res, next) => {
-  const artistId=req.params.artistId;
+//route for artists albums
+app.get("/albums/:artistId", (req, res, next) => {
   spotifyApi
-  .getArtistAlbums(artistId)
+  .getArtistAlbums(req.params.artistId)
   .then((data)=> {
-    console.log("Artist's albums", data.body);
-    const albums=data.body.items;
-    res.render('albums', {albums})
+    console.log("Artist's albums", data.body.items);
+
+    res.render('albums', {albums: data.body.items})
   })
   .catch(err => console.log("The error while getting artist albums: ", err));
 })
 
+//route for albums tracks
 app.get("/albums/:albumId", (req, res, next) => {
-  const albumId=req.params.albumId;
   spotifyApi
-  .getArtistAlbums(albumId)
+  .getArtistAlbums(req.params.albumId)
   .then((data)=> {
-    console.log("Album's tracks", data.body);
-    const tracks=data.body.items;
-    res.render("tracks", {tracks})
+    console.log("Album's tracks", data.body.items);
+
+    res.render("tracks", {tracks: data.body.items})
   })
   .catch(err => console.log("The error while getting albums tracks: ", err));
 })

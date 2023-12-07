@@ -1,13 +1,13 @@
-<div>
-    <h1>Results</h1>
+<h1>Artist Search Results</h1>
+
     <ul>
         {{#each artists}}
             <li>
-                <img src="{{images.0.url}}" alt="{{name}}"/>
-                <strong>{{name}}</strong>
-                <a href="/albums/{{id}}">Artist's Albums</a>
+                <img src="{{this.images.0.url}}" alt="{{this.name}}"/>
+                <strong>{{this.name}}</strong>
+                <a href="/albums/{{this.id}}">Artist's Albums</a>
             </li>
         {{/each}}
     </ul>
-</div>
+
 
