@@ -1,0 +1,12 @@
+<div>
+    <h1>Tracks</h1>
+    <ul>
+        {{#each tracks}}
+        <li>
+            <audio controls src="{{preview_url}}">
+            <strong>{{name}}</strong>
+            <a href="{{preview_url}}">Download</a>
+
+        </li>
+    </ul>
+</div>
