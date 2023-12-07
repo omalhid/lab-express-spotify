@@ -11,7 +11,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const app = express();
 
 app.set('view engine', 'hbs');
-app.set('views', __dirname + '/public/views');
+app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 
 // setting the spotify-api goes here:
@@ -60,9 +60,9 @@ app.get("/albums/:artistId", (req, res, next) => {
 })
 
 //route for albums tracks
-app.get("/albums/:albumId", (req, res, next) => {
+app.get("/tracks/:trackId", (req, res, next) => {
   spotifyApi
-  .getArtistAlbums(req.params.albumId)
+  .getAlbumTracks(req.params.trackId)
   .then((data)=> {
     console.log("Album's tracks", data.body.items);
 
