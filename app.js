@@ -11,7 +11,7 @@ const SpotifyWebApi = require('spotify-web-api-node');
 const app = express();
 
 app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/public/views');
 app.use(express.static(__dirname + '/public'));
 
 // setting the spotify-api goes here:
@@ -31,7 +31,7 @@ spotifyApi
 
 //route for home page
 app.get("/" , (req,res) => {
-    res.render("home")
+    res.render('index.hbs')
 })
 
 //route for searching results
@@ -42,7 +42,7 @@ app.get('/artist-search', (req, res) => {
     .then(data => {
       console.log('Searched artist', data.body.artists.items[0]);
       // ----> 'HERE'S WHAT WE WANT TO DO AFTER RECEIVING THE DATA FROM THE API'
-      res.render('artist-search', {artists: data.body.artists.items })
+      res.render('artist-search.hbs', {artists: data.body.artists.items })
     })
     .catch(err => console.log("The error while searching artists occurred: ", err));
 })
@@ -54,7 +54,7 @@ app.get("/albums/:artistId", (req, res, next) => {
   .then((data)=> {
     console.log("Artist's albums", data.body.items);
 
-    res.render('albums', {albums: data.body.items})
+    res.render('albums.hbs', {albums: data.body.items})
   })
   .catch(err => console.log("The error while getting artist albums: ", err));
 })
@@ -66,7 +66,7 @@ app.get("/albums/:albumId", (req, res, next) => {
   .then((data)=> {
     console.log("Album's tracks", data.body.items);
 
-    res.render("tracks", {tracks: data.body.items})
+    res.render('tracks.hbs', {tracks: data.body.items})
   })
   .catch(err => console.log("The error while getting albums tracks: ", err));
 })
